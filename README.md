@@ -1,4 +1,34 @@
-# Приложение для загрузки и получения картинки
+# Тестовая задача для DevOps / DevOps test task
+
+Пожалуйста, проверьте Helm-чарт приложения и отметьте любые обнаруженные ошибки.
+Вам не нужно исправлять каждый YAML-манифест — достаточно указать, где есть проблемы.
+
+Требования к helm чарту:
+- Развёртывание без простоя
+- 100% доступность
+- Возможность разворачивать несколько релизов из разных веток в одном и том же namespace (для тестирования)
+
+Решение отправляйте в текстовом формате с описанием всех найденных проблем. 
+
+Проверка не должна занять более 30–40 минут.
+
+---
+
+Please review the application's Helm chart and identify any errors found.
+You do not need to correct every YAML manifest—simply indicate where issues exist.
+
+Helm chart requirements:
+
+- Zero-downtime deployment
+- 100% availability
+- Ability to deploy multiple releases from different branches within the same namespace (for testing purposes)
+Submit the solution in plain text format, detailing all identified problems.
+
+The review should not take more than 30–40 minutes.
+
+# О приложении
+
+Приложение для загрузки и получения картинки
 
 ## Функциональность
 
