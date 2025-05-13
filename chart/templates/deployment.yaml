@@ -10,11 +10,18 @@ spec:
   template:
     metadata:
       labels:
-        app: my-app
+        app.kubernetes.io/name: {{ .Release.Name }}
     spec:
+      resources:
+        requests:
+          cpu: "100m"
+          memory: "128Mi"
+        limits:
+          cpu: "500m"
+          memory: "512Mi"
       containers:
         - name: my-app
-          image: ghcr.io/ipakyulibank/devops-test-task1/test-app:{{ .Values.image.tag }}
+          image: ghcr.io/jamshiddint/devops-test-task1/test-app:{{ .Values.image.tag }}
           imagePullPolicy: Always
           env:
             - name: PORT
@@ -30,3 +37,15 @@ spec:
         - name: data
           persistentVolumeClaim:
             claimName: {{ .Release.Name }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  readinessProbe:
+    httpGet:
+      path: /
+      port: 80
+    initialDelaySeconds: 2
+    periodSeconds: 5
+

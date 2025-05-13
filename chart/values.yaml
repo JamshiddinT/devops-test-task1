@@ -1,5 +1,6 @@
 image:
-  tag: master
+  tag: release-1.0.0
 
 ingress:
-  host: my-app.com
+  host: '{{ .Release.Name }}.my-app.com'
+

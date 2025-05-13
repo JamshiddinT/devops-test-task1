@@ -1,0 +1,90 @@
+ Jamshiddin-Turdiev.
+
+Couldn't deploy to the cluster as my available cluster is arm based. Moreover due to connection latency docker image is still in progress to upload to my GitHub registry. Image is really big, nearly 1 gb.
+Here is brief overview of about chart:
+ 
+ Detected issues:
+1. No support for zero-downtime deployments
+File: deployment.yaml
+Problems:
+
+    no readiness and liveness probes: Without readiness probes, Kubernetes can route traffic to pods before the app is ready
+
+    no strategy defined: By default, K8s uses RollingUpdate, but it's better to be explicit and tune maxUnavailable: 0 to prevent downtime.
+
+2. Chart is not safe for multiple releases in the same namespace
+
+Files: deployment.yaml, service.yaml, pvc.yaml, ingress.yaml
+Problems:
+
+    hardcoded labels and selectors as app: my-app. This means all releases will have the same selector, and the service/pods potentially can conflict.
+
+    the same PersistentVolumeClaim name—it might conflict across releases.
+
+
+3. Ingress host is not namespaced
+
+File: values.yaml + ingress.yaml
+Problems:
+
+    my-app.com is reused across all branches/releases which could lead conflicts.
+
+    we can't test multiple branches if they use the same external hostname.
+
+Fix recommendation:
+
+using dynamic naming of the host e.g:
+
+host: "{{ .Release.Name }}.my-app.com"
+
+4. no resource limits:
+
+File: deployment.yaml
+
+it will let the pod take unlimited CPU/memory.
+
+
+
+IN RUSSIAN:
+
+
+Обнаруженные проблемы:
+1. Нет поддержки развертываний с нулевым временем простоя
+Файл: deployment.yaml
+Проблемы:
+
+нет проверок готовности и жизнеспособности: без проверок готовности Kubernetes может направлять трафик в модули до того, как приложение будет готово
+
+стратегия не определена: по умолчанию K8s использует RollingUpdate, но лучше указать явно и настроить maxUnavailable: 0, чтобы предотвратить простои.
+
+2. Chart небезопасен для нескольких релизов в одном пространстве имен
+
+Файлы: deployment.yaml, service.yaml, pvc.yaml, ingress.yaml
+Проблемы:
+
+жестко закодированные метки и селекторы, такие как app: my-app. Это означает, что все релизы будут иметь один и тот же селектор, и службы/модули потенциально могут конфликтовать.
+
+одно и то же имя PersistentVolumeClaim — оно может конфликтовать между релизами.
+
+3. Входящий хост не имеет пространства имен
+
+Файл: values.yaml + ingress.yaml
+Проблемы:
+
+my-app.com повторно используется во всех ветках/релизах, что может привести к конфликтам.
+
+мы не можем тестировать несколько веток, если они используют одно и то же внешнее имя хоста.
+
+Рекомендация по исправлению:
+
+использование динамического именования хоста, например:
+
+host: "{{ .Release.Name }}.my-app.com"
+
+4. нет ограничений на ресурсы:
+
+Файл: deployment.yaml
+
+это позволит модулю использовать неограниченное количество ЦП/памяти.
+
+
