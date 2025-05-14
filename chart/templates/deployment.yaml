@@ -25,12 +25,12 @@ spec:
         - name: my-app
           image: ghcr.io/jamshiddint/devops-test-task1/test-app:{{ .Values.image.tag }}
           imagePullPolicy: Always
-          readinessProbe:
-            httpGet:
-              path: /
-              port: 80
-            initialDelaySeconds: 2
-            periodSeconds: 5
+          # readinessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: 80
+          #   initialDelaySeconds: 2
+          #   periodSeconds: 5
           env:
             - name: PORT
               value: "80"

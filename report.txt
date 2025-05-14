@@ -1,6 +1,9 @@
  Jamshiddin-Turdiev.
 
-Couldn't deploy to the cluster as my available cluster is arm based. Moreover due to connection latency docker image is still in progress to upload to my GitHub registry. Image is really big, nearly 1 gb.
+#Couldn't deploy to the cluster as my available cluster is arm based. Moreover due to connection latency docker image is still in progress to upload to my GitHub registry. Image is really big, nearly 1 gb.
+optimized dockerfile with multi staging build. and finally application deployed to the cluster and it is running. in some deployments observed failing readyness probe. overall app is raunning and fully functional.
+image on current directory: ----> 2025-05-14 071711.png
+
 Here is brief overview of about chart:
  
  Detected issues:
